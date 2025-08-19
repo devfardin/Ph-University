@@ -70,11 +70,12 @@ const StudentSchema = new Schema<TStudent, studentId>({
     type: String,
     required: [true, 'Student Id is required'],
     unique: true,
+    ref:'user',
   },
-  password: {
-    type: String,
-    required: [true, 'password is required'],
-    maxLength: [20, 'passowrd not more then 20 chaarecter']
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'User id is required'],
+    unique: true,
   },
   name: userNameSchema,
   gender: {
@@ -128,11 +129,6 @@ const StudentSchema = new Schema<TStudent, studentId>({
   profileImg: {
     type: String,
   },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
-  },
   isDeleted: {
     type: Boolean,
     default: false,
@@ -147,19 +143,6 @@ const StudentSchema = new Schema<TStudent, studentId>({
 StudentSchema.virtual('FullName',).get(function(){
   return (`${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`)
 })
-// pre save middleware or hook
-StudentSchema.pre('save', async  function(next) {
-  const user = this;
- user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds))
- next();
-})
-
-// when not showing any filed value
-StudentSchema.post('save', async function(doc, next){
-  doc.password = '';
-  next();
-})
-
 
 // when search all student without deleted student this function will be worked
 StudentSchema.pre('find', async function(next){
