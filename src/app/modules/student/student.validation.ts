@@ -26,7 +26,7 @@ export const localGuardianZodSchema = z.object({
 });
 
 // ✅ Main Student Schema
-export const studentZodSchema = z.object({
+export const studentValidation = z.object({
     body: z.object({
         student: z.object({
             user: z.string().min(1, "User id is required"), // Will hold ObjectId as string
