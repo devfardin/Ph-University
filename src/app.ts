@@ -18,9 +18,8 @@ app.use(globarErrorHandler)
 // not found route
 app.use(notFound);
 
-
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
-export default app;
+export default app; 
