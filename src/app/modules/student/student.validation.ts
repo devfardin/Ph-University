@@ -26,10 +26,11 @@ export const localGuardianZodSchema = z.object({
 });
 
 // ✅ Main Student Schema
-export const studentValidation = z.object({
+const createStudentValidationSchema = z.object({
     body: z.object({
+        password: z.string(),
         student: z.object({
-            user: z.string().min(1, "User id is required"), // Will hold ObjectId as string
+            // user: z.string().min(1, "User id is required"), // Will hold ObjectId as string
             name: userNameZodSchema,
             gender: z.enum(["mail", "femail"]).optional(), // match your enum typo
             dataOfBirth: z.string().optional(),
@@ -48,3 +49,7 @@ export const studentValidation = z.object({
         })
     })
 });
+
+export const studentValidations = {
+    createStudentValidationSchema
+}

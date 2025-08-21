@@ -154,13 +154,11 @@ this.find({isDeleted: { $ne: true }})
 next();
 })
 
-
 // create custom static
 StudentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await studentModel.findOne({ id })
   return existingUser;
 }
-
 
 export const studentModel = model<TStudent, studentId>('student', StudentSchema);
 
