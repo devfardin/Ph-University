@@ -1,11 +1,11 @@
 import { StatusCodes } from "http-status-codes";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { academicSemesterService } from "./academicSemester.service";
+import { AcademicSemesterService } from "./academicSemester.service";
 
 const createAcademicSemesterIntoBD = catchAsync(async (req, res) => {
     const payload = req.body
-    const result = await academicSemesterService.createAcademicSemesterIntoBD(payload);
+    const result = await AcademicSemesterService.createAcademicSemesterIntoBD(payload);
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         success: true,
@@ -14,7 +14,18 @@ const createAcademicSemesterIntoBD = catchAsync(async (req, res) => {
     })
 })
 
+const getAllAcademicSemesterFromDB = catchAsync(async (req, res) => {
+    const academicSemester = await AcademicSemesterService.getAllAcademicSemester();
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'All Academic Semester retrive successfull',
+        data: academicSemester,
+    })
+})
+
 
 export const AcademicSemesterController = {
-    createAcademicSemesterIntoBD
+    createAcademicSemesterIntoBD,
+    getAllAcademicSemesterFromDB
 }
