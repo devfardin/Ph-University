@@ -25,3 +25,13 @@ export const academicSemestercode: TAcademicSemestercode[] = [
     '02',
     '03'
 ] 
+
+
+  type TAcademicSemesterNameCodeMapper ={
+        [key:string] : string
+    }
+    export const academicSemesterNameCodeMapper: TAcademicSemesterNameCodeMapper = {
+        Autumn: '01',
+        Summar: '02',
+        Fall: '03,'
+    } 
