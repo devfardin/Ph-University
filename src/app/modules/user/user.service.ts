@@ -1,11 +1,13 @@
 import config from "../../config";
 import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
+import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interface";
 import { studentModel } from "../student/student.model";
 import { TUser } from "./user.interface";
 import { UserModel } from "./user.model";
+import { generateStudentId } from "./user.utils";
 
-const createStudentIntoBd = async ( studentData: TStudent, password: string,) => {
+const createStudentIntoBd = async ( payload: TStudent, password: string,) => {
     // const studentId = await studentModel.isUserExists(studentData.id)
     // if (studentId) {
     //     throw new Error('Already Exis this user')
@@ -22,24 +24,23 @@ const createStudentIntoBd = async ( studentData: TStudent, password: string,) =>
         userData.password = password
     }
     // set student role
-    userData.role = 'student'
+    userData.role = 'student';
 
 
-    const generateStudentId = (payload: TAcademicSemester){
-        
-    }
+
+    const admissionSemester = await AcademicSemesterModel.findById(payload.admissionSemester)
 
     // manually generated it
-    userData.id = 'stu-002'
+    userData.id = generateStudentId(admissionSemester)
     // create a user
     const newUser = await UserModel.create(userData);
 
     // create a studnet
     if(Object.keys(newUser).length) {
         // set id
-        studentData.id = newUser.id;
-        studentData.user = newUser._id;
-        const newStudent = await studentModel.create(studentData)
+        payload.id = newUser.id;
+        payload.user = newUser._id;
+        const newStudent = await studentModel.create(payload)
         return newStudent
     }
 
